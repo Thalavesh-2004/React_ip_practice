@@ -1,6 +1,7 @@
 const express=require("express")
 const mysql=require("mysql2")
 const cors=require("cors")
+require('dotenv').config();
 
 const app=express();
 app.use(cors())
@@ -9,10 +10,10 @@ app.use(express.json())
 //connect to db
 
 const db=mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"root123",
-    database:"exam_db"
+    host:process.env.DB_HOST,
+    user:process.env.DB_USERNAME,
+    password:process.emv.DB_PASSWORD,
+    database:process.env.DB_NAME
 })
 
 db.connect((err)=>{
@@ -47,17 +48,25 @@ app.get("/questions",(req,res)=>{
 //submit answers
 
 app.post("/answers",(req,res)=>{
+    let wrongans=[];
     const {answers}=req.body;
-    db.query("select answer from questions",(err,result)=>
+    db.query("select * from questions",(err,result)=>
     {
         if(err)return res.json(err);
         let score=0;
         console.log(result);
         answers.forEach((ele,idx)=>{
             if(ele==result[idx].answer)score++;
+            else{
+                let qno=idx;
+                let qn=result[idx].question;
+                let uranswer=ele;
+                let crtanswer=result[idx].answer;
+                wrongans.push({qno,uranswer,crtanswer,qn});
+            }
         });
 
-        return res.json({score:score,total:result.length});
+        return res.json({score:score,total:result.length,analysis:wrongans});
         
     })
 })

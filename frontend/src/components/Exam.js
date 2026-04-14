@@ -52,7 +52,11 @@ function Exam(){
             <p>{q.question}</p>
             {
                 [q.option1,q.option2,q.option3,q.option4].map((option,idx)=>{return(
-                    <li key={idx}><input type="radio" onChange={()=>handleOption(option)}  checked={answers[current]===option}/>{option}</li>
+                    <p>
+                        <label>{option}:</label>
+ <input type="radio" onChange={()=>handleOption(option)}  checked={answers[current]===option}/>
+                    </p>
+                   
                 );
                     
                 })
