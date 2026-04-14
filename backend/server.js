@@ -23,6 +23,9 @@ db.connect((err)=>{
 })
 
 //login
+app.get('/', (req, res) => {
+    res.send('Backend is running! 🚀');
+});
 
 app.post("/login",(req,res)=>{
     const {username,password}=req.body;
