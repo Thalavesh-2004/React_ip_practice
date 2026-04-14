@@ -16,7 +16,8 @@ const db = mysql.createConnection({
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 15972,
     ssl: {
-        rejectUnauthorized: true  // REQUIRED for Aiven MySQL!
+        rejectUnauthorized: false//if i put true certificate error  
+        // REQUIRED for Aiven MySQL!
     }
 })
 db.connect((err)=>{
