@@ -9,13 +9,16 @@ app.use(express.json())
 
 //connect to db
 
-const db=mysql.createConnection({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USERNAME,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_NAME
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 15972,
+    ssl: {
+        rejectUnauthorized: true  // REQUIRED for Aiven MySQL!
+    }
 })
-
 db.connect((err)=>{
     if(err)console.log("Erorr in db connection: "+err)
     else
